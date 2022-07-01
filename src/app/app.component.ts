@@ -12,6 +12,8 @@ import { EmpServiceService } from './service/emp-service.service';
 export class AppComponent implements OnInit {
     title = 'frontMangeEmp';
     public employee!: Employee[];
+    public editEmployee!: Employee;
+    public testId!: string;
     constructor(private empSrv: EmpServiceService) {
     }
     ngOnInit() {
@@ -32,7 +34,34 @@ export class AppComponent implements OnInit {
         )
     }
 
-    public onOpenModel(employee: Employee, mode: string): void {
+
+    public addNewEmployee(data: NgForm): void {
+        document.getElementById("add-employee-form")?.click();
+        this.empSrv.addEmp(data.value).subscribe(
+            (response: Employee) => {
+                console.log(response);
+
+                this.getEmployees()
+            }, (error: HttpErrorResponse) => {
+                alert(error.error.message)
+            })
+    }
+
+
+    public updateEmployee(employee: Employee) {
+
+        this.empSrv.updateEmp(employee).subscribe(
+            (response: Employee) => {
+                console.log(response);
+
+                this.getEmployees()
+            }, (error: HttpErrorResponse) => {
+                alert(error.error.message)
+            })
+    }
+
+
+    public onOpenModel(emp: Employee, mode: string): void {
         const container = document.getElementById("main-container");
         const button = document.createElement("button");
         button.type = "button";
@@ -42,6 +71,7 @@ export class AppComponent implements OnInit {
             button.setAttribute("data-target", "#addEmp");
         }
         if (mode === "edit") {
+            this.editEmployee = emp;
             button.setAttribute("data-target", "#editEmp");
         }
         if (mode === "delete") {
@@ -53,15 +83,10 @@ export class AppComponent implements OnInit {
     }
 
 
-    public addNewEmployee(data: NgForm): void {
+getId(){
+    console.log('it does nothing',this.testId);
+}
 
-        this.empSrv.addEmp(data.value).subscribe(
-            (response: Employee) => {
-                console.log(response);
-                document.getElementById("add-employee-form")?.click();
-                this.getEmployees()
-            }, (error: HttpErrorResponse) => {
-                alert(error.error.message)
-            })
-    }
+
+
 }

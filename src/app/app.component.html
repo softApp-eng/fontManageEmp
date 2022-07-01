@@ -31,6 +31,7 @@
                         <a href=""><img src={{emp?.imageUrl}} alt="" class="img-fluid rounded-circle w-60"></a>
                     </div>
                     <div class="col-6 card-title align-self-center mb-0">
+                        <h5  [(ngModel)]="testId">{{emp.id}}</h5>
                         <h5>{{emp.name}}</h5>
                         <p class="m-0">{{emp.jobTitle}}</p>
                     </div>
@@ -42,7 +43,7 @@
                 <div class="card-body">
                     <div class="float-right btn-group btn-group-sm">
                         <a href="#" class="btn btn-primary tooltips" data-placement="top" 
-                        (click)="onOpenModel(null!,'edit')"
+                        (click)="onOpenModel(null!,'edit')" 
                         ><i class="fa fa-pencil"></i> </a>
                         <a href="#" class="btn btn-secondary tooltips" data-placement="top" 
                         (click)="onOpenModel(null!,'delete')"
@@ -196,7 +197,7 @@
       </div>
     </div>
   </div>
-  <!-- add Emp -->
+  <!-- edit Emp -->
 <!-- Modal -->
 <div class="modal fade" id="editEmp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -207,40 +208,45 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <form #editEmp="ngForm">
         <div class="modal-body">
-            <form>
+          <input type="hidden" class="form-control" >
+          <input type="text"  class="form-control" id="empCode" name="empCode" value="{{testId}}">
+
                 <div class="form-group">
                     <label for="name">name</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name"  ngModel="{{editEmployee?.name}}" 
+                    >
                   </div>
                 <div class="form-group">
                   <label for="Email">Email address</label>
-                  <input type="email" class="form-control" id="Email" name="email">
+                  <input type="email" ngModel="{{editEmployee?.email}}" class="form-control" id="Email" name="email" >
                 </div>
                 <div class="form-group">
                     <label for="jobTitle">job Title</label>
-                    <input type="text" class="form-control" id="jobTitle" name="jobTitle">
+                    <input type="text" ngModel="{{editEmployee?.jobTitle}}"  class="form-control" id="jobTitle" name="jobTitle">
                   </div>
                 <div class="form-group">
                   <label for="phone">phone</label>
-                  <input type="text" class="form-control" id="phone" name="phone">
+                  <input type="text" ngModel="{{editEmployee?.phone}}"  class="form-control" id="phone" name="phone">
                 </div>
                 <div class="form-group">
                     <label for="imageUrl">image Url</label>
-                    <input type="text" class="form-control" id="imageUrl" name="imageUrl">
+                    <input type="text" class="form-control" ngModel="{{editEmployee?.imageUrl}}"  id="imageUrl" name="imageUrl">
                   </div>
                 <div class="form-group">
                   <label for="empCode">employee Code</label>
-                  <input type="text" class="form-control" id="empCode" name="empCode">
+                  <input type="text" class="form-control" ngModel="{{editEmployee?.empCode}}"  id="empCode" name="empCode">
                 </div>
                
               
-              </form>
+             
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button (click)="updateEmployee(editEmp.value)" type="submit" class="btn btn-primary" >Save changes</button>
         </div>
+      </form>
       </div>
     </div>
   </div>
